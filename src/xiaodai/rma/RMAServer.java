@@ -12,12 +12,25 @@ import java.io.IOException;
  *
  * @author Xiaodai
  */
+
+@SuppressWarnings("unused")
 public class RMAServer implements Closeable{
 
     private RMAPipelineOutlet outlet;
 
     public RMAServer(String pool,String id){
         this.outlet = RMAPipeline.openOutput(pool,id);
+    }
+
+    /**
+     * Connect if not, else do nothing.
+     */
+    public void connect(){
+        if(!outlet.isConnected()) connect();
+    }
+
+    public boolean isConnected(){
+        return outlet.isConnected();
     }
 
     private void ensureConnection(){

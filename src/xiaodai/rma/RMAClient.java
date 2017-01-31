@@ -1,16 +1,21 @@
 package xiaodai.rma;
 
+import org.kucro3.rma.connection.RMAPacket;
 import org.kucro3.rma.connection.RMAPipeline;
 import org.kucro3.rma.connection.RMAPipelineInlet;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * Created in 2017 01.30
  *
  * @author Xiaodai
  */
+
+@SuppressWarnings("unused")
 public class RMAClient implements Closeable {
 
     private RMAPipelineInlet inlet;
@@ -22,6 +27,17 @@ public class RMAClient implements Closeable {
     @Override
     public void close() throws IOException {
         inlet.close();
+    }
+
+    public boolean hasNext(){
+        return inlet.hasNext();
+    }
+
+    /**
+     * Read all packages.
+     */
+    public void forEach(Consumer<? super RMAPacket> c){
+        inlet.forEach(c);
     }
 
     public boolean readBoolean() {
